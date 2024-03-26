@@ -36,14 +36,14 @@ fn main() {
     let cli = Cli::parse();
 
     match cli.command {
-        Commands::Add(add_task_params) => add_item(add_task_params.task, add_task_params.due),
+        Commands::Add(add_task_params) => add_task(add_task_params.task, add_task_params.due),
         Commands::Delete => todo!(),
         Commands::Complete => todo!(),
     }
 
 }
 
-fn add_item(task: Vec<String>, due: Option<String>) {
+fn add_task(task: Vec<String>, due: Option<String>) {
 
     let formatted_task = task.join(" ");
 
