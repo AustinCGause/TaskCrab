@@ -1,3 +1,5 @@
-pub fn add_item(_tokens: Vec<String>) {
-
+pub fn add_item(task: Vec<String>) {
+    for token in task {
+        print!("{} ", token);
+    }
 }
