@@ -1,6 +1,8 @@
-// use sqlx::sqlite::SqlitePoolOptions;
-// use std::env;
+use std::{error::Error, fs::{self, File}, io::Write, path::PathBuf};
 use clap::{ Args, Parser, Subcommand };
+use serde::{Serialize, Deserialize};
+use directories::ProjectDirs;
+// use sqlx::sqlite::SqlitePoolOptions;
 
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
@@ -31,26 +33,53 @@ struct AddArgs {
     due: Option<String>,
 }
 
+#[derive(Serialize, Deserialize)]
+struct Task {
+    desc: String,
+    due: String,
+}
+
 fn main() {
 
     let cli = Cli::parse();
 
     match cli.command {
-        Commands::Add(add_task_params) => add_task(add_task_params.task, add_task_params.due),
+        Commands::Add(add_task_params) => {
+            if let Err(e) = add_task(add_task_params.task, add_task_params.due) {
+                eprintln!("Error adding task: {}", e);
+                std::process::exit(1);
+            }
+        }
         Commands::Delete => todo!(),
         Commands::Complete => todo!(),
-    }
+    };
 
 }
 
-fn add_task(task: Vec<String>, due: Option<String>) {
+fn add_task(task: Vec<String>, due: Option<String>) -> Result<(), Box<dyn Error>> {
 
-    let formatted_task = task.join(" ");
+    if let Some(proj_dirs) = ProjectDirs::from("org", "austincgause", "taskcrab") {
+        let data_local_dir = proj_dirs.data_local_dir();
 
-    println!("{}", formatted_task);
+        fs::create_dir_all(data_local_dir)?;
 
-    if let Some(date) = due {
-        println!("{}", date);
+        let file_path: PathBuf = data_local_dir.join("tasks.json");
+        
+        let task = Task {
+            desc: task.join(" "),
+            due: due.unwrap_or_else(|| "none".to_string()),
+        };
+
+        let t = serde_json::to_string(&task)?;
+
+        let mut file = File::create(file_path)?;
+
+        file.write_all(t.as_bytes())?;
+    } else {
+        return Err("Could not find project directories".into());
     }
+
+
+    Ok(())
 
 }
