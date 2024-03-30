@@ -1,9 +1,9 @@
 use directories::ProjectDirs;
-use std::{error::Error, fs::{self, File}, path::PathBuf};
+use std::{error::Error, fs::{self, File, OpenOptions}, path::PathBuf};
 use crate::task_manager:: Tasks;
 
 pub struct AppConfig {
-    file_path: PathBuf,
+    pub file_path: PathBuf,
 }
 
 impl AppConfig {
@@ -22,11 +22,25 @@ impl AppConfig {
         }
 
         if !self.file_path.exists() {
-            let tasks = Tasks { tasks: Vec::new() };
             let file = File::create(&self.file_path)?;
+            let tasks = Tasks::new();
             serde_json::to_writer(file, &tasks)?;
         }
 
         Ok(())
+    }
+
+    pub fn get_file_for_write(&self, truncate: bool) -> Result<File, Box<dyn Error>> {
+        let file = OpenOptions::new()
+            .write(true)
+            .create(true)
+            .truncate(truncate)
+            .open(&self.file_path)?;
+        Ok(file)
+    }
+
+    pub fn _get_file_for_read(&self) -> Result<File, Box<dyn Error>> {
+        let file = File::open(&self.file_path)?;
+        Ok(file)
     }
 }

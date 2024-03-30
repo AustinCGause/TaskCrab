@@ -20,16 +20,18 @@ pub enum Commands {
     Delete,
     /// Mark a task as complete
     Complete,
+    /// TESTING ONLY
+    Clear,
 }
 
 #[derive(Args)]
 pub struct AddArgs {
     /// Task to add
-    task: Vec<String>,
+    pub desc: Vec<String>,
 
     /// Due date of task
     #[arg(short, long, help="Set an optional due date in MDY Format")]
-    due: Option<String>,
+    pub due: Option<String>,
 }
 
 #[derive(Args)]

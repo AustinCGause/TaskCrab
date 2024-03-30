@@ -3,25 +3,35 @@ mod cli;
 mod task_manager;
 
 use crate::{app_config::AppConfig, cli::{Cli, Commands}};
+use std::error::Error;
 use clap::Parser;
+use task_manager::Tasks;
 // use sqlx::sqlite::SqlitePoolOptions;
 
-fn main() {
+fn main() -> Result<(), Box<dyn Error>> {
 
     let config = AppConfig::new();
 
-    if let Err(e) = config.ensure_setup() {
-        eprintln!("Error during setup: {}", e);
-        std::process::exit(1);
-    }
+    config.ensure_setup()?;
+
+    let mut tasks = Tasks::load_from_file(&config.file_path)?;
 
     let cli = Cli::parse();
 
     match cli.command {
-        Commands::Add(_add_args) => todo!(),
+        Commands::Add(add_args) => {
+            tasks.add_task(
+                config.get_file_for_write(false)?,
+                add_args.desc.join(" "),
+                add_args.due.unwrap_or_else(|| String::from("No due date provided"))
+            )?
+        },
         Commands::View(_view_args) => todo!(),
         Commands::Delete => todo!(),
         Commands::Complete => todo!(),
+        Commands::Clear => tasks.clear_tasks(config.get_file_for_write(true)?)?, // TODO: Remove this
     };
+
+    Ok(())
 
 }
