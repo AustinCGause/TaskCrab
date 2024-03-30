@@ -79,7 +79,6 @@ fn add_task(task: Vec<String>, due: Option<String>) -> Result<(), Box<dyn Error>
         return Err("Could not find project directories".into());
     }
 
-
     Ok(())
 
 }
