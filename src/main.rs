@@ -1,6 +1,7 @@
 mod app_config;
 mod cli;
 mod task_manager;
+mod format_helpers;
 
 use crate::{app_config::AppConfig, cli::{Cli, Commands}};
 use std::error::Error;
@@ -26,7 +27,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                 add_args.due.unwrap_or_else(|| String::from("No due date provided"))
             )?
         },
-        Commands::View(_view_args) => todo!(),
+        Commands::View(_view_args) => tasks.view_tasks()?,
         Commands::Delete => todo!(),
         Commands::Complete => todo!(),
         Commands::Clear => tasks.clear_tasks(config.get_file_for_write(true)?)?, // TODO: Remove this

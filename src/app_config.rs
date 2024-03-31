@@ -1,6 +1,6 @@
 use directories::ProjectDirs;
 use std::{error::Error, fs::{self, File, OpenOptions}, path::PathBuf};
-use crate::task_manager:: Tasks;
+use crate::task_manager::Tasks;
 
 pub struct AppConfig {
     pub file_path: PathBuf,
