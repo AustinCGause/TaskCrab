@@ -6,7 +6,6 @@ use crate::format_helpers::centered_header;
 
 #[derive(Serialize, Deserialize)]
 pub struct Tasks {
-    // pub tasks: Vec<Task>,
     pub tasks: HashMap<i32, Task>,
 }
 
