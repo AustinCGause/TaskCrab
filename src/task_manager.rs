@@ -1,12 +1,11 @@
 // use std::error::Error;
 use std::{error::Error, fs::File, path::Path};
 use serde::{Deserialize, Serialize};
-use fastrand::u32;
+// use fastrand::u32;
 use crate::format_helpers::{/* output_centered_header,  */output_tasks};
 
 #[derive(Serialize, Deserialize)]
 pub struct Tasks {
-    // pub tasks: Vec<Task>,
     pub tasks: Vec<Task>,
 }
 
@@ -55,7 +54,7 @@ impl Tasks {
 pub struct Task {
     pub desc: String,
     pub due: String,
-    id: u32,
+    // id: u32,
 }
 
 impl Task {
@@ -64,12 +63,13 @@ impl Task {
         Task {
             desc,
             due,
-            id: generate_id(),
+            // id: generate_id(),
         }
     }
 
 }
 
-fn generate_id() -> u32 {
-    u32(99..)
-}
+// fn generate_id() -> u32 {
+//     
+//     u32(99..)
+// }
