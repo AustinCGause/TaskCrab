@@ -1,5 +1,5 @@
 // use std::error::Error;
-use std::{collections::HashMap, error::Error, fs::File, path::Path};
+use std::{error::Error, fs::File, path::Path};
 use serde::{Deserialize, Serialize};
 use fastrand::u32;
 use crate::format_helpers::{/* output_centered_header,  */output_tasks};
@@ -7,13 +7,13 @@ use crate::format_helpers::{/* output_centered_header,  */output_tasks};
 #[derive(Serialize, Deserialize)]
 pub struct Tasks {
     // pub tasks: Vec<Task>,
-    pub tasks: HashMap<u32, Task>,
+    pub tasks: Vec<Task>,
 }
 
 impl Tasks {
 
     pub fn new() -> Self {
-        Tasks { tasks: HashMap::new() }
+        Tasks { tasks: Vec::new() }
     }
 
     pub fn load_from_file(file_path: &Path) -> Result<Tasks, Box<dyn Error>> {
@@ -23,8 +23,7 @@ impl Tasks {
     }
 
     pub fn add_task(&mut self, file: File, desc: String, due: String) -> Result<(), Box<dyn Error>> {
-        let index: u32 = self.tasks.len().try_into()?;
-        self.tasks.insert(index, Task::new(desc, due));
+        self.tasks.push(Task::new(desc, due));
         serde_json::to_writer_pretty(file, self)?; // TODO: Change from _pretty in final build
         Ok(())
     }

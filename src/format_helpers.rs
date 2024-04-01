@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 // use terminal_size::{Width, terminal_size};
 use tabled::{builder::Builder, settings::Style};
 use crate::task_manager::Task;
@@ -12,13 +10,13 @@ use crate::task_manager::Task;
 //
 // }
 
-pub fn output_tasks(tasks: &HashMap<u32, Task>) {
+pub fn output_tasks(tasks: &Vec<Task>) {
 
     let mut builder = Builder::default();
 
-    for (index, task) in tasks.iter() {
+    for task in tasks {
         builder.push_record(vec![
-            format!("{}", index),
+            // format!("{}", index),
             format!("{}", task.desc),
             format!("{}", task.due)
         ])
