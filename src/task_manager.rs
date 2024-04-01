@@ -1,12 +1,13 @@
 // use std::error::Error;
 use std::{collections::HashMap, error::Error, fs::File, path::Path};
 use serde::{Deserialize, Serialize};
-use fastrand::i32;
-use crate::format_helpers::centered_header;
+use fastrand::u32;
+use crate::format_helpers::{centered_header, output_tasks};
 
 #[derive(Serialize, Deserialize)]
 pub struct Tasks {
-    pub tasks: HashMap<i32, Task>,
+    // pub tasks: Vec<Task>,
+    pub tasks: HashMap<u32, Task>,
 }
 
 impl Tasks {
@@ -22,7 +23,7 @@ impl Tasks {
     }
 
     pub fn add_task(&mut self, file: File, desc: String, due: String) -> Result<(), Box<dyn Error>> {
-        let index: i32 = self.tasks.len().try_into()?;
+        let index: u32 = self.tasks.len().try_into()?;
         self.tasks.insert(index, Task::new(desc, due));
         serde_json::to_writer_pretty(file, self)?; // TODO: Change from _pretty in final build
         Ok(())
@@ -30,11 +31,7 @@ impl Tasks {
 
     pub fn view_tasks(&self) -> Result<(), Box<dyn Error>> {
         println!("{}", centered_header(String::from("TaskCrab")));
-        // println!(""); // heading for tasks
-        
-        for ele in self.tasks.values() {
-            println!("{}", ele.desc);
-        }
+        output_tasks(&self.tasks);
         Ok(())
     }
 
@@ -50,9 +47,9 @@ impl Tasks {
 
 #[derive(Serialize, Deserialize)]
 pub struct Task {
-    desc: String,
-    due: String,
-    id: i32,
+    pub desc: String,
+    pub due: String,
+    id: u32,
 }
 
 impl Task {
@@ -67,6 +64,6 @@ impl Task {
 
 }
 
-fn generate_id() -> i32 {
-    i32(99..)
+fn generate_id() -> u32 {
+    u32(99..)
 }
