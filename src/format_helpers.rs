@@ -1,21 +1,12 @@
 use terminal_size::{Width, terminal_size};
+use colored::Colorize;
 
-pub fn centered_header(header_text: &str, fill_char: char) -> String {
+pub fn centered_header(header_text: &str, _fill_char: char) -> String {
 
-    let term_width: u16 = get_terminal_width();
+    let _term_width: u16 = get_terminal_width();
 
-    let padding_total = term_width.saturating_sub(header_text.len() as u16);
-    let padding_side = padding_total / 2;
-    let mut result = String::new();
-    for _ in 0..padding_side {
-        result.push(fill_char);
-    }
-    result.push_str(header_text);
-    while result.len() < term_width as usize {
-        result.push(fill_char);
-    }
-    result
-
+    format!("{:{}^{}{}}", _fill_char, _term_width, header_text.red())
+    
 }
 
 fn get_terminal_width() -> u16 {
