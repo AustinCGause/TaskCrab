@@ -2,7 +2,7 @@
 use std::{collections::HashMap, error::Error, fs::File, path::Path};
 use serde::{Deserialize, Serialize};
 use fastrand::u32;
-use crate::format_helpers::{centered_header, output_tasks};
+use crate::format_helpers::{/* output_centered_header,  */output_tasks};
 
 #[derive(Serialize, Deserialize)]
 pub struct Tasks {
@@ -30,7 +30,7 @@ impl Tasks {
     }
 
     pub fn view_tasks(&self) -> Result<(), Box<dyn Error>> {
-        println!("{}", centered_header(String::from("TaskCrab")));
+        // output_centered_header(String::from("TaskCrab"));
         output_tasks(&self.tasks);
         Ok(())
     }
