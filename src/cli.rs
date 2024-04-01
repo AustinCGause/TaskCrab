@@ -17,7 +17,7 @@ pub enum Commands {
     /// View tasks
     View(ViewArgs),
     /// Delete a task
-    Delete,
+    Delete(DeleteArgs),
     /// Mark a task as complete
     Complete,
     /// TESTING ONLY
@@ -39,4 +39,9 @@ pub struct ViewArgs {
     all: Option<bool>,
     in_progress: Option<bool>,
     completed: Option<bool>,
+}
+
+#[derive(Args)]
+pub struct DeleteArgs {
+    pub index: u32,
 }

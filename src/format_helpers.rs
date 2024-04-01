@@ -16,17 +16,17 @@ pub fn output_tasks(tasks: &Vec<Task>) {
 
     for task in tasks {
         builder.push_record(vec![
-            // format!("{}", index),
             format!("{}", task.desc),
             format!("{}", task.due)
         ])
     }
 
     builder.insert_record(0, vec![
-        "Index",
         "Task Description",
         "Due Date"
     ]);
+
+    let builder = builder.index();
 
     let mut table = builder.build();
     table.with(Style::rounded());

@@ -24,11 +24,16 @@ fn main() -> Result<(), Box<dyn Error>> {
             tasks.add_task(
                 config.get_file_for_write(false)?,
                 add_args.desc.join(" "),
-                add_args.due.unwrap_or_else(|| String::from("No due date provided"))
+                add_args.due.unwrap_or_else(|| String::from("No due date provided")),
             )?
         },
         Commands::View(_view_args) => tasks.view_tasks()?,
-        Commands::Delete => todo!(),
+        Commands::Delete(delete_args) => {
+            tasks.delete_task(
+                config.get_file_for_write(true)?,
+                delete_args.index,
+            )?
+        },
         Commands::Complete => todo!(),
         Commands::Clear => tasks.clear_tasks(config.get_file_for_write(true)?)?, // TODO: Remove this
     };

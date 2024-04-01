@@ -24,6 +24,7 @@ impl Tasks {
 
     pub fn add_task(&mut self, file: File, desc: String, due: String) -> Result<(), Box<dyn Error>> {
         self.tasks.push(Task::new(desc, due));
+        output_tasks(&self.tasks);
         serde_json::to_writer_pretty(file, self)?; // TODO: Change from _pretty in final build
         Ok(())
     }
@@ -34,9 +35,15 @@ impl Tasks {
         Ok(())
     }
 
-    pub fn _delete_task(&mut self, _index:usize) {} // TODO: Implement delete task functionality
+    pub fn delete_task(&mut self, file: File, index:u32) -> Result<(), Box<dyn Error>> {
+        self.tasks.remove(index as usize);
+        serde_json::to_writer_pretty(file, self)?; // TODO: Change from _pretty in final build
+        output_tasks(&self.tasks);
+        Ok(())
+    }
 
-    pub fn clear_tasks(&mut self, file: File) -> Result<(), Box<dyn Error>> { // TODO: Remove this
+    // TODO: Remove entire clear tasks functionality
+    pub fn clear_tasks(&mut self, file: File) -> Result<(), Box<dyn Error>> {
         self.tasks.clear();
         serde_json::to_writer(file, self)?;
         Ok(())
