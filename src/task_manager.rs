@@ -31,6 +31,11 @@ impl Tasks {
 
     pub fn view_tasks(&self) -> Result<(), Box<dyn Error>> {
         println!("{}", centered_header(String::from("TaskCrab")));
+        // println!(""); // heading for tasks
+        
+        for ele in self.tasks.values() {
+            println!("{}", ele.desc);
+        }
         Ok(())
     }
 
