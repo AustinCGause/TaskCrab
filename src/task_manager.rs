@@ -2,7 +2,7 @@
 use std::{error::Error, fs::File, path::Path};
 use serde::{Deserialize, Serialize};
 // use fastrand::u32;
-use crate::format_helpers::{/* output_centered_header,  */output_tasks};
+use crate::{format_helpers::output_tasks, cli::ViewType};
 
 #[derive(Serialize, Deserialize)]
 pub struct Tasks {
@@ -23,21 +23,21 @@ impl Tasks {
 
     pub fn add_task(&mut self, file: File, desc: String, due: String) -> Result<(), Box<dyn Error>> {
         self.tasks.push(Task::new(desc, due));
-        output_tasks(&self.tasks);
+        self.view_tasks(ViewType::All)?;
         serde_json::to_writer_pretty(file, self)?; // TODO: Change from _pretty in final build
         Ok(())
     }
 
-    pub fn view_tasks(&self) -> Result<(), Box<dyn Error>> {
+    pub fn view_tasks(&self, view_type: ViewType) -> Result<(), Box<dyn Error>> {
         // output_centered_header(String::from("TaskCrab"));
-        output_tasks(&self.tasks);
+        output_tasks(&self.tasks, view_type);
         Ok(())
     }
 
     pub fn delete_task(&mut self, file: File, index:u32) -> Result<(), Box<dyn Error>> {
         self.tasks.remove(index as usize);
         serde_json::to_writer_pretty(file, self)?; // TODO: Change from _pretty in final build
-        output_tasks(&self.tasks);
+        self.view_tasks(ViewType::All)?;
         Ok(())
     }
 

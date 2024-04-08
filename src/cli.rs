@@ -1,17 +1,16 @@
 use clap::{ Args, Parser, Subcommand };
-// use sqlx::sqlite::SqlitePoolOptions;
 
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
 pub struct Cli {
 
     #[command(subcommand)]
-    pub command: Commands,
+    pub command: Command,
 
 }
 
 #[derive(Subcommand)]
-pub enum Commands {
+pub enum Command {
     /// Add a task
     Add(AddArgs),
     /// View tasks
@@ -36,9 +35,16 @@ pub struct AddArgs {
 
 #[derive(Args)]
 pub struct ViewArgs {
-    all: Option<bool>,
-    in_progress: Option<bool>,
-    completed: Option<bool>,
+    /// Specify the view type
+    #[command(subcommand)]
+    pub view_type: ViewType,
+}
+
+#[derive(Subcommand)]
+pub enum ViewType {
+    All,
+    InProgress,
+    Completed,
 }
 
 #[derive(Args)]

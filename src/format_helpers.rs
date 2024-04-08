@@ -1,6 +1,6 @@
 // use terminal_size::{Width, terminal_size};
 use tabled::{builder::Builder, settings::Style};
-use crate::task_manager::Task;
+use crate::{task_manager::Task, cli::ViewType};
 
 // pub fn output_centered_header(header_text: String) {
 //
@@ -10,21 +10,31 @@ use crate::task_manager::Task;
 //
 // }
 
-pub fn output_tasks(tasks: &Vec<Task>) {
+pub fn output_tasks(tasks: &Vec<Task>, view_type: ViewType) {
 
     let mut builder = Builder::default();
-
-    for task in tasks {
-        builder.push_record(vec![
-            format!("{}", task.desc),
-            format!("{}", task.due)
-        ])
-    }
 
     builder.insert_record(0, vec![
         "Task Description",
         "Due Date"
     ]);
+
+    match view_type {
+        ViewType::All => {
+            for task in tasks {
+                builder.push_record(vec![
+                    format!("{}", task.desc),
+                    format!("{}", task.due)
+                ])
+            }
+        },
+        ViewType::InProgress => {
+            todo!()
+        }
+        ViewType::Completed => {
+            todo!()
+        }
+    }
 
     let builder = builder.index();
 
