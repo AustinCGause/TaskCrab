@@ -15,12 +15,16 @@ pub enum Command {
     Add(AddArgs),
     /// View tasks
     View(ViewArgs),
-    /// Delete a task
-    Delete(DeleteArgs),
     /// Mark a task as complete
     Complete,
+    /// Delete a task
+    Delete(DeleteArgs),
+
+//################################################################################ 
     /// TESTING ONLY
     Clear,
+//################################################################################ 
+
 }
 
 #[derive(Args)]

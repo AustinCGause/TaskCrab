@@ -36,8 +36,14 @@ fn main() -> Result<(), Box<dyn Error>> {
                 delete_args.index,
             )?
         },
-        Command::Complete => todo!(),
-        Command::Clear => tasks.clear_tasks(config.get_file_for_write(true)?)?, // TODO: Remove this
+        Command::Complete => {
+            todo!();
+        }
+        
+//################################################################################ 
+        // TEST METHOD - REMOVE IN FINAL BUILD
+        Command::Clear => tasks.clear_tasks(config.get_file_for_write(true)?)?, 
+//################################################################################ 
     };
 
     Ok(())

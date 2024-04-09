@@ -2,6 +2,7 @@
 use tabled::{builder::Builder, settings::Style};
 use crate::{task_manager::Task, cli::ViewType};
 
+// Keeping this just in case I decide to use it later
 // pub fn output_centered_header(header_text: String) {
 //
 //     let term_width: u16 = get_terminal_width();
@@ -10,6 +11,9 @@ use crate::{task_manager::Task, cli::ViewType};
 //
 // }
 
+// TODO: Implement seperate viewing types with proper formatting
+// Might be more semantic to keep the logic in the task_manager method and move the actual
+// formatting parts to this file.
 pub fn output_tasks(tasks: &Vec<Task>, view_type: ViewType) {
 
     let mut builder = Builder::default();
@@ -44,6 +48,7 @@ pub fn output_tasks(tasks: &Vec<Task>, view_type: ViewType) {
     println!("{}", table);
 }
 
+// Keeping this just in case it turns out I need it
 // fn get_terminal_width() -> u16 {
 //     if let Some((Width(w), _)) = terminal_size() {
 //         w
