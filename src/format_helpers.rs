@@ -19,6 +19,13 @@ pub fn output_tasks(tasks: Vec<Task>) {
 
     builder.insert_record(0, vec!["Task Description", "Due Date"]);
 
+    for task in tasks {
+        builder.push_record(vec![
+            format!("{}", task.desc),
+            format!("{}", task.due),
+        ])
+    }
+
     let builder = builder.index();
 
     let mut table = builder.build();
