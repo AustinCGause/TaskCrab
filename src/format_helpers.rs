@@ -14,7 +14,7 @@ use tabled::{builder::Builder, settings::Style};
 // TODO: Implement seperate viewing types with proper formatting
 // Might be more semantic to keep the logic in the task_manager method and move the actual
 // formatting parts to this file.
-pub fn output_tasks(tasks: &Vec<Task>) {
+pub fn output_tasks(tasks: Vec<Task>) {
     let mut builder = Builder::default();
 
     builder.insert_record(0, vec!["Task Description", "Due Date"]);

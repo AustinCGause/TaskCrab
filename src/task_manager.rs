@@ -20,12 +20,7 @@ impl Tasks {
         Ok(tasks)
     }
 
-    pub fn add_task(
-        &mut self,
-        file: File,
-        desc: String,
-        due: String,
-    ) -> Result<(), Box<dyn Error>> {
+    pub fn add_task( &mut self, file: File, desc: String, due: String ) -> Result<(), Box<dyn Error>> {
         self.tasks.push(Task::new(desc, due));
         self.view_tasks(ViewType::All)?;
 
@@ -45,7 +40,7 @@ impl Tasks {
             }
         };
 
-        output_tasks(&tasks);
+        output_tasks(tasks);
         Ok(())
     }
 
