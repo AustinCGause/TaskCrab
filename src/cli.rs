@@ -43,12 +43,16 @@ pub struct ViewArgs {
 
 #[derive(Subcommand)]
 pub enum ViewType {
+    /// View in progress and completed tasks
     All,
+    /// View only in progress tasks
     InProgress,
+    /// View only completed tasks
     Completed,
 }
 
 #[derive(Args)]
 pub struct DeleteArgs {
+    /// Numerical index of task to delete
     pub index: u32,
 }
