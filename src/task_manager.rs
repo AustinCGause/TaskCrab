@@ -1,8 +1,8 @@
 // use std::error::Error;
-use std::{error::Error, fs::File, path::Path};
 use serde::{Deserialize, Serialize};
+use std::{error::Error, fs::File, path::Path};
 // use fastrand::u32;
-use crate::{format_helpers::output_tasks, cli::ViewType};
+use crate::{cli::ViewType, format_helpers::output_tasks};
 
 #[derive(Serialize, Deserialize)]
 pub struct Tasks {
@@ -10,7 +10,6 @@ pub struct Tasks {
 }
 
 impl Tasks {
-
     pub fn new() -> Self {
         Tasks { tasks: Vec::new() }
     }
@@ -21,18 +20,32 @@ impl Tasks {
         Ok(tasks)
     }
 
-    pub fn add_task(&mut self, file: File, desc: String, due: String) -> Result<(), Box<dyn Error>> {
+    pub fn add_task(
+        &mut self,
+        file: File,
+        desc: String,
+        due: String,
+    ) -> Result<(), Box<dyn Error>> {
         self.tasks.push(Task::new(desc, due));
         self.view_tasks(ViewType::All)?;
 
         // Change to_writer_pretty to to_writer in final build
-        serde_json::to_writer_pretty(file, self)?; 
+        serde_json::to_writer_pretty(file, self)?;
         Ok(())
     }
 
     pub fn view_tasks(&self, view_type: ViewType) -> Result<(), Box<dyn Error>> {
-        // output_centered_header(String::from("TaskCrab"));
-        output_tasks(&self.tasks, view_type);
+        let tasks: Vec<Task> = match view_type {
+            ViewType::All => self.tasks.clone(),
+            ViewType::InProgress => {
+                todo!()
+            }
+            ViewType::Completed => {
+                todo!()
+            }
+        };
+
+        output_tasks(&tasks);
         Ok(())
     }
 
@@ -41,26 +54,26 @@ impl Tasks {
         Ok(())
     }
 
-    pub fn delete_task(&mut self, file: File, index:u32) -> Result<(), Box<dyn Error>> {
+    pub fn delete_task(&mut self, file: File, index: u32) -> Result<(), Box<dyn Error>> {
         self.tasks.remove(index as usize);
         // Change to_writer_pretty to to_writer in final build
-        serde_json::to_writer_pretty(file, self)?; 
+        serde_json::to_writer_pretty(file, self)?;
         self.view_tasks(ViewType::All)?;
         Ok(())
     }
 
-// ################################################################################ 
+    // ################################################################################
     // TEST METHOD - REMOVE IN FINAL BUILD
     pub fn clear_tasks(&mut self, file: File) -> Result<(), Box<dyn Error>> {
         self.tasks.clear();
         serde_json::to_writer(file, self)?;
         Ok(())
     }
-// ################################################################################ 
-    
+    // ################################################################################
 }
 
-#[derive(Serialize, Deserialize)]
+// TODO: Look into a method that doesn't involve cloning
+#[derive(Serialize, Deserialize, Clone)]
 pub struct Task {
     pub desc: String,
     pub due: String,
@@ -68,7 +81,6 @@ pub struct Task {
 }
 
 impl Task {
-
     pub fn new(desc: String, due: String) -> Self {
         Task {
             desc,
@@ -76,10 +88,9 @@ impl Task {
             // id: generate_id(),
         }
     }
-
 }
 
 // fn generate_id() -> u32 {
-//     
+//
 //     u32(99..)
 // }

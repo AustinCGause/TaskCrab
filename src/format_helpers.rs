@@ -1,6 +1,6 @@
 // use terminal_size::{Width, terminal_size};
+use crate::task_manager::Task;
 use tabled::{builder::Builder, settings::Style};
-use crate::{task_manager::Task, cli::ViewType};
 
 // Keeping this just in case I decide to use it later
 // pub fn output_centered_header(header_text: String) {
@@ -14,31 +14,10 @@ use crate::{task_manager::Task, cli::ViewType};
 // TODO: Implement seperate viewing types with proper formatting
 // Might be more semantic to keep the logic in the task_manager method and move the actual
 // formatting parts to this file.
-pub fn output_tasks(tasks: &Vec<Task>, view_type: ViewType) {
-
+pub fn output_tasks(tasks: &Vec<Task>) {
     let mut builder = Builder::default();
 
-    builder.insert_record(0, vec![
-        "Task Description",
-        "Due Date"
-    ]);
-
-    match view_type {
-        ViewType::All => {
-            for task in tasks {
-                builder.push_record(vec![
-                    format!("{}", task.desc),
-                    format!("{}", task.due)
-                ])
-            }
-        },
-        ViewType::InProgress => {
-            todo!()
-        }
-        ViewType::Completed => {
-            todo!()
-        }
-    }
+    builder.insert_record(0, vec!["Task Description", "Due Date"]);
 
     let builder = builder.index();
 

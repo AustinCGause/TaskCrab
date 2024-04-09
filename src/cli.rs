@@ -1,12 +1,10 @@
-use clap::{ Args, Parser, Subcommand };
+use clap::{Args, Parser, Subcommand};
 
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
 pub struct Cli {
-
     #[command(subcommand)]
     pub command: Command,
-
 }
 
 #[derive(Subcommand)]
@@ -20,11 +18,10 @@ pub enum Command {
     /// Delete a task
     Delete(DeleteArgs),
 
-// ################################################################################ 
+    // ################################################################################
     /// TESTING ONLY
     Clear,
-// ################################################################################ 
-
+    // ################################################################################
 }
 
 #[derive(Args)]
@@ -33,7 +30,7 @@ pub struct AddArgs {
     pub desc: Vec<String>,
 
     /// Due date of task
-    #[arg(short, long, help="Set an optional due date in MDY Format")]
+    #[arg(short, long, help = "Set an optional due date in MDY Format")]
     pub due: Option<String>,
 }
 

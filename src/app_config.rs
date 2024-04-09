@@ -1,6 +1,10 @@
-use directories::ProjectDirs;
-use std::{error::Error, fs::{self, File, OpenOptions}, path::PathBuf};
 use crate::task_manager::Tasks;
+use directories::ProjectDirs;
+use std::{
+    error::Error,
+    fs::{self, File, OpenOptions},
+    path::PathBuf,
+};
 
 pub struct AppConfig {
     pub file_path: PathBuf,
@@ -16,7 +20,6 @@ impl AppConfig {
     }
 
     pub fn ensure_setup(&self) -> Result<(), Box<dyn Error>> {
-
         if let Some(parent) = self.file_path.parent() {
             fs::create_dir_all(parent)?;
         }
