@@ -31,8 +31,8 @@ fn main() -> Result<(), Box<dyn Error>> {
         Command::Delete(delete_args) => {
             tasks.delete_task(config.get_file_for_write(true)?, delete_args.index)?
         }
-        Command::Complete => {
-            todo!();
+        Command::Complete(complete_args) => {
+            tasks.complete_task(config.get_file_for_write(true)?, complete_args.index)?
         }
 
         // ################################################################################

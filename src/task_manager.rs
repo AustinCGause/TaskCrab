@@ -31,12 +31,14 @@ impl Tasks {
 
     pub fn view_tasks(&self, view_type: ViewType) -> Result<(), Box<dyn Error>> {
         let tasks: Vec<Task> = match view_type {
-            ViewType::All => self.tasks.clone(),
+            ViewType::All => {
+                 self.tasks.clone()
+            }
             ViewType::InProgress => {
-                todo!()
+                self.tasks.iter().filter(|task| !task.complete).cloned().collect()
             }
             ViewType::Completed => {
-                todo!()
+                self.tasks.iter().filter(|task| task.complete).cloned().collect()
             }
         };
 
@@ -44,8 +46,10 @@ impl Tasks {
         Ok(())
     }
 
-    // TODO: Implement the logic for completing tasks
-    pub fn _complete_task(&mut self) -> Result<(), Box<dyn Error>> {
+    pub fn complete_task(&mut self, file: File, index: u32) -> Result<(), Box<dyn Error>> {
+        self.tasks[index as usize].complete = true;
+        // Change to_writer_pretty to to_writer in final build
+        serde_json::to_writer_pretty(file, self)?;
         Ok(())
     }
 
@@ -56,6 +60,7 @@ impl Tasks {
         self.view_tasks(ViewType::All)?;
         Ok(())
     }
+
 
     // ################################################################################
     // TEST METHOD - REMOVE IN FINAL BUILD
@@ -72,6 +77,7 @@ impl Tasks {
 pub struct Task {
     pub desc: String,
     pub due: String,
+    pub complete: bool,
     // id: u32,
 }
 
@@ -80,6 +86,7 @@ impl Task {
         Task {
             desc,
             due,
+            complete: false,
             // id: generate_id(),
         }
     }
