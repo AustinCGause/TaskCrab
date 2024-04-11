@@ -52,13 +52,13 @@ pub enum ViewType {
 }
 
 #[derive(Args)]
-pub struct DeleteArgs {
-    /// Numerical index of task to delete
+pub struct CompleteArgs {
+    /// Numerical index of task to mark complete
     pub index: u32,
 }
 
 #[derive(Args)]
-pub struct CompleteArgs {
-    /// Numerical index of task to mark complete
+pub struct DeleteArgs {
+    /// Numerical index of task to delete
     pub index: u32,
 }
