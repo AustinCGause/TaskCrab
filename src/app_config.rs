@@ -2,7 +2,7 @@ use crate::task_manager::Tasks;
 use directories::ProjectDirs;
 use std::{
     error::Error,
-    fs::{self, File, OpenOptions},
+    fs::{self, File},
     path::PathBuf,
 };
 
@@ -33,12 +33,8 @@ impl AppConfig {
         Ok(())
     }
 
-    pub fn get_file_for_write(&self, truncate: bool) -> Result<File, Box<dyn Error>> {
-        let file = OpenOptions::new()
-            .write(true)
-            .create(true)
-            .truncate(truncate)
-            .open(&self.file_path)?;
+    pub fn get_file_for_write(&self) -> Result<File, Box<dyn Error>> {
+        let file = File::create(&self.file_path).unwrap();
         Ok(file)
     }
 

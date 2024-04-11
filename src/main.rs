@@ -24,21 +24,21 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     match cli.command {
         Command::Add(add_args) => tasks.add_task(
-            config.get_file_for_write(false)?,
+            config.get_file_for_write()?,
             add_args.desc.join(" "),
             add_args.due.unwrap_or_else(|| String::from("None")),
         )?,
         Command::View(view_args) => tasks.view_tasks(view_args.view_type)?,
         Command::Delete(delete_args) => {
-            tasks.delete_task(config.get_file_for_write(true)?, delete_args.index)?
+            tasks.delete_task(config.get_file_for_write()?, delete_args.index)?
         }
         Command::Complete(complete_args) => {
-            tasks.complete_task(config.get_file_for_write(true)?, complete_args.index)?
+            tasks.complete_task(config.get_file_for_write()?, complete_args.index)?
         }
 
         // ################################################################################
         // TEST METHOD - REMOVE IN FINAL BUILD
-        Command::Clear => tasks.clear_tasks(config.get_file_for_write(true)?)?,
+        Command::Clear => tasks.clear_tasks(config.get_file_for_write()?)?,
         // ################################################################################
     };
 
