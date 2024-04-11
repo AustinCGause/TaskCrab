@@ -17,6 +17,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     config.ensure_setup()?;
 
+    // Loads tasks from file with standard config path
     let mut tasks = Tasks::load_from_file(&config.file_path)?;
 
     let cli = Cli::parse();

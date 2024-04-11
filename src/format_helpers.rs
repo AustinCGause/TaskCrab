@@ -16,6 +16,9 @@ pub fn output_tasks(tasks: Vec<Task>) {
 
     builder.insert_record(0, vec!["Task Description", "Due Date", "Completed?"]);
 
+    // TODO: Seperate the in-progress and completed tasks
+    // Might be better to save this functionality for after tui integration
+
     for task in tasks {
         builder.push_record(vec![
             format!("{}", task.desc),
