@@ -15,5 +15,7 @@ terminal_size = "0.3"
 colored = "2.1"
 tabled = "0.15.0"
 chrono = "0.4"
+ratatui = "0.26.1"
+crossterm = "0.27.0"
 # tokio = { version = "1", features = ["full"] }
 # sqlx = { version = "0.7", features = [ "runtime-tokio", "sqlite" ] }
